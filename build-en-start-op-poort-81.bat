@@ -1,3 +1,10 @@
 @echo off
-docker build -t my-demo-site .
-docker run -d -t -p 81:80 --name my-demo-site-container my-demo-site
+REM Build the Docker image
+docker build -t demo-site .
+
+REM Stop and remove any existing container named demo-site
+docker stop demo-site
+docker rm demo-site
+
+REM Run a new container from the demo-site image on port 81
+docker run -d -p 81:80 --name demo-site demo-site

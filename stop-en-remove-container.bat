@@ -1,3 +1,6 @@
 @echo off
-docker stop my-demo-site-container
-docker rm my-demo-site-container
+REM Stop the running container
+docker stop demo-site
+
+REM Remove the stopped container
+docker rm demo-site
