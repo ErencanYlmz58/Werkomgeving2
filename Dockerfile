@@ -1,23 +1,20 @@
-# Gebruik een bestaande image als basis
+Start from an official Ubuntu base image
 FROM ubuntu:20.04
 
-# Werk package lists bij en installeer Apache en PHP
-RUN apt update && apt install -y apache2 php
-
-# Stel non-interactieve frontend in voor de installatie van pakketten
+Prevent interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Kopieer je webbestanden naar de container
+Update the package list and install Apache
+RUN apt update && apt install -y apache2
+
+Copy the html directory from the host into the image
 COPY html /var/www/html/
 
-# Maak een buildtime.txt bestand aan met de huidige datum en tijd
+Create the buildtime.txt file with the current date
 RUN date > /var/www/html/buildtime.txt
 
-# Stel de werkdirectory in
-WORKDIR /var/www/html/
-
-# Stel de container in om poort 80 te gebruiken
+Expose port 80 (Apache default)
 EXPOSE 80
 
-# Start Apache bij het opstarten van de container
-CMD ["sh", "-c", "service apache2 start && bash"]
+Start Apache in the foreground
+CMD ["apache2ctl", "-D", "FOREGROUND"]
